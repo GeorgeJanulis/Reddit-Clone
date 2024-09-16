@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+{% if current_user.is_authenticated %}
+<br><br>
+    <form action="{{ url_for('post', post_id=post.id) }}" method="post">
+        <button class="" style="background-color: blue; border: none;" name="selection" type="submit" value="post_like">
+            <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+        </button>
+{% endif %}
+<h3> {{ post.num_likes }} likes </h3>
+{% if current_user.is_authenticated %}
+        <button class="" style="background-color: blue; border: none;" name="selection" type="submit" value="post_dislike">
+                <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+        </button>
+    </form>
+<br>
+{% endif %}
+
+<h1>{{ post.title }}</h1>
+<h3>{{ post.content }}</h3>
+<p>Submitted by {{ post.author }}</p>
+
+{% if current_user.is_authenticated %}
+    <h2>Submit a comment (be respectful!): </h2>
+    <form action="{{ url_for('post', post_id=post.id) }}" name="write" method="POST">
+        <textarea name="content" class="form-control" placeholder="Content" type="text"></textarea>
+        <br>
+        <button class="btn btn-secondary" type="submit">Submit Comment</button>
+    </form>
+
+{% else %}
+    <p>Whoops! Looks like you're not signed in. Please do so before making a comment!</p>
+{% endif %}
+
+{% for comment in comments %}
+    {% if current_user.is_authenticated %}
+        <form action="{{ url_for('post', post_id=post.id) }}" method="post">
+            <button class="" style="background-color: red; border: none;" name="selection" type="submit" value="comment_like_{{ comment.id }}">
+                <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+            </button>
+    {% endif %}
+    <h3 style="text-align: center; margin: 0 0 0 0;">{{ comment.num_likes }}</h3>
+    {% if current_user.is_authenticated %}
+            <button class="" style="background-color: red; border: none;" name="selection" type="submit" value="comment_dislike_{{ comment.id }}">
+                <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+            </button>
+        </form>
+    {% endif %}
+
+    <h1>{{ comment.title }}</h1>
+    <h3>{{ comment.content }}</h3>
+    <p>Comment written by: {{ comment.author }}</p>
+{% endfor %}
+
+
+
+{% endblock %}

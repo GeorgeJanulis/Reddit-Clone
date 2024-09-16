@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+{% if current_user.is_authenticated %}
+
+
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+
+    <form method="post">
+        <button class="btn btn-secondary" name="selection" type="submit" value="posts">Posts</button>
+        <button class="btn btn-secondary" name="selection" type="submit" value="comments">Comments</button>
+        <button class="btn btn-secondary" name="selection" type="submit" value="likes">Liked</button> 
+    </form>
+
+    <br>
+
+    <!-- if Post -->
+
+    {% if posts %}
+        {% for post in posts %}
+            <h2>{{ post.num_likes }}</h2>
+            <h2><a>{{ post.title }}</a></h2>
+            <p>{{ post.content }}</p>
+        {% endfor %}
+    {% endif %}
+    {% if comments %}
+        {% for comment in comments %}
+            <h2>{{ comment.num_likes }}</h2>
+            <h2><a>{{ PostDB.query.filter_by(id=comment.post_id).first().title }}</a></h2>
+            <p>{{ comment.content }}</p>
+        {% endfor %}
+    {% endif %}
+    {% if post_like %}
+        {% for post in post_like %}
+            <h2>{{ post[0].num_likes }}</h2>
+            <h2><a>{{ post[0].title }}</a></h2>
+            <p>{{ post[0].content }}</p>
+        {% endfor %}
+    {% endif %}
+
+{% endif %}
+
+<br><br><br><br>
+<br><br><br><br>
+<br><br><br><br>
+<br><br><br><br>
+<br><br><br><br>
+<br><br><br><br>
+
+
+{% endblock %}

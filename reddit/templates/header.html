@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if current_user.is_authenticated %}
+    
+{% else %}
+    <p>user has not yet signed in!</p>
+{% endif %}
+
+<br><br>
+
+{% for post in posts %}
+    <h1>{{ post.title }}</h1>
+    <h3>{{ post.content }}</h3>
+    <p>Submitted by {{post.author}}</p>
+    <br><br>
+
+{% endfor %}
+
+{% endblock %}
